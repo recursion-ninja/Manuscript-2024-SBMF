@@ -1,0 +1,46 @@
+\begin{tikzpicture}
+\node [style=timeline] (t0) at (0, 0) {$t_{n-1}$};
+\node [style=timeline] (t1) at (7, 0) {$t_{n}$};
+\node [style=timeline] (t2) at (14, 0) {$t_{n+1}$};
+\draw [arrow] (t0)--(t1);
+\draw [arrow] (t1)--(t2);
+
+\node [style=algor] (M0) at (-1, 3) {$M_{n-1}$};
+\node [style=agent] (A0) at (0, 5) {Alice};
+\node [style=agent] (B0) at (0, 1) {Bob};
+\node [style=agent] (D0) at (2, 3) {Delivery Service};
+
+\node [style=algor] (M1) at (6, 3) {$M_{n}$};
+\node [style=agent] (A1) at (7, 5) {Alice};
+\node [style=agent] (B1) at (7, 1) {Bob};
+\node [style=agent] (D1) at (9, 3) {Delivery Service};
+
+\node [style=algor] (M2) at (13, 3) {$M_{n+1}$};
+\node [style=agent] (A2) at (14, 5) {Alice};
+\node [style=agent] (B2) at (14, 1) {Bob};
+\node [style=agent] (D2) at (16, 3) {Delivery Service};
+
+\node[timebox, above left=0.15cm and 2.1cm of A1, anchor=north west] (L1) {};
+\node[timebox, above left=0.15cm and 2.1cm of A2, anchor=north west] (L2) {};
+
+\draw [arrow] (A0.south west) to[bend right=15] (D0.north west);
+\draw [arrow] (D0.west)       to[bend  left=30] (A0.south west);
+\draw [arrow] (B0.north west) to[bend  left=15] (D0.south west);
+\draw [arrow] (D0.west)       to[bend right=30] (B0.north west);
+
+\draw [arrow] (A1.south west) to[bend right=15] (D1.north west);
+\draw [arrow] (D1.west)       to[bend  left=30] (A1.south west);
+\draw [arrow] (B1.north west) to[bend  left=15] (D1.south west);
+\draw [arrow] (D1.west)       to[bend right=30] (B1.north west);
+
+\draw [arrow] (A2.south west) to[bend right=15] (D2.north west);
+\draw [arrow] (D2.west)       to[bend  left=30] (A2.south west);
+\draw [arrow] (B2.north west) to[bend  left=15] (D2.south west);
+\draw [arrow] (D2.west)       to[bend right=30] (B2.north west);
+
+\draw [choice] (A0.east) -- (A1.west) node [below=2pt, near end, color=black, fill=none] {Update};
+\draw [choice] (A1.east) -- (A2.west) node [below=2pt, near end, color=black, fill=none] {Update};
+\draw [choice] (B0.east) -- (B1.west) node [above=2pt, near end, color=black, fill=none] {Update};
+\draw [choice] (B1.east) -- (B2.west) node [above=2pt, near end, color=black, fill=none] {Update};
+
+\end{tikzpicture}

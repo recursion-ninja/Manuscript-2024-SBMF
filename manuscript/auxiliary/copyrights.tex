@@ -1,0 +1,49 @@
+%------------------------------------- Copyright Reuse Citation ----------------
+\makeatletter
+\renewcommand{\CRB@setcopyrightfont}{\scriptsize\color{black!66}}
+\makeatother
+
+\DeclareCiteCommand{\copyrightprecite}
+{\usebibmacro{prenote}}
+{\usebibmacro{copyrightprecite}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\copyrightpostcite}
+{\usebibmacro{prenote}}
+{\usebibmacro{copyrightpostcite}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\copyrightclosure}
+{\usebibmacro{prenote}}
+{\usebibmacro{copyrightclosure}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+
+\newbibmacro{copyrightprecite}{%
+	\printlist{organization}%
+	\setunit{\space}%
+	\printfield{booktitle}%
+}
+
+\newbibmacro{copyrightpostcite}{%
+	\printfield{title}%
+	\setunit{\addcomma\space}%
+	\printnames[given-family]{author},%
+}
+
+\newbibmacro{copyrightclosure}{%
+	\printlist{publisher}%
+	\setunit{\space(}%
+	\printfield{year}).%
+}
+
+\newcommand{\CopyrightReuse}[1]{
+Reprinted by permission from Springer Nature Customer Service Centre:~%
+\copyrightprecite{#1}\\
+\autocite{#1} \copyrightpostcite{#1}\\
+\textcopyright\xspace\copyrightclosure{#1}
+}%
+%------------------------------------- Copyright Reuse Citation ----------------

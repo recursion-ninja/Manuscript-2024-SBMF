@@ -1,0 +1,156 @@
+\begin{tikzpicture}[ node distance = 0.5cm and 0.5cm, auto]
+\node[agent, anchor=west ] (ATK) {\textbf{\((\,T, C, N\,)\) Adversary}};
+\node[boxed, below left=2cm and 2cm of ATK.south west, anchor=north west] (BOXED) {};
+\node[label, right=1mm of BOXED.west, anchor=north] (LABEL) {\Large \scshape Serial, Unbounded Gameplay};
+
+\node[oracl, right=0.75cm of ATK     ] (ORC-INI) {\Oracle{init}{}};
+\node[oracl, below=0.75cm of ORC-INI ] (ORC-CRT) {\Oracle{create-group}{}};
+\node[oracl, below=3.25cm of ORC-CRT  ] (ORC-DEL) {\Oracle{deliver}{}};
+\node[oracl, below=0.50cm of ORC-DEL ] (ORC-HRD) {\Oracle{no-del}{}};
+\node[oracl, below=0.50cm of ORC-HRD ] (ORC-COR) {\Oracle{corr}{}};
+\node[oracl, below=0.50cm of ORC-COR ] (ORC-REV) {\Oracle{reveal}{}};
+\node[oracl, below=0.50cm of ORC-REV ] (ORC-ADD) {\Oracle{add-user}{}};
+\node[oracl, below=0.50cm of ORC-ADD ] (ORC-RMV) {\Oracle{remove-user}{}};
+\node[oracl, below=0.50cm of ORC-RMV ] (ORC-UPD) {\Oracle{send-update}{}};
+\node[oracl, below=3.00cm of ORC-UPD ] (ORC-CHL) {\Oracle{chall}{}};
+	
+\node[algor, right=0.50cm of ORC-INI ] (ALG-INI) {\Protocol{init}}; 
+\node[algor, right=1.85cm of ORC-CRT ] (ALG-CRT) {\Protocol{create}}; 
+\node[algor, right=2.75cm of ORC-ADD ] (ALG-ADD) {\Protocol{add}}; 
+\node[algor, right=4.00cm of ORC-RMV ] (ALG-RMV) {\Protocol{rmv}}; 
+\node[algor, right=5.25cm of ORC-UPD ] (ALG-UPD) {\Protocol{upd}};
+\node[algor, below right=0.5cm and 6.90cm of ORC-UPD ] (ALG-PRC) {\Protocol{proc}};
+	
+\node[agent, right=4.5cm of ORC-DEL ] (DS)  {\textbf{Delivery\\Service}};
+\node[ident, right=9.25cm of ORC-HRD ] (ID1) {\textbf{$\texttt{ID}_1$}};
+\node[ident, right=9.25cm of ORC-COR ] (ID2) {\textbf{$\texttt{ID}_2$}};
+\node[invis, right=9.25cm of ORC-ADD ] (IDS) {\makebox[4mm][r]{$\vdots$}};
+\node[ident, right=9.25cm of ORC-RMV ] (IDN) {\textbf{$\texttt{ID}_N$}};
+\node[invis, above left=-0.25cm and 2.00cm of ORC-REV] (CON-REV) {\parbox{25mm}{%
+If $c = \bot$%
+}};
+\node[flow, right=1.00cm of ALG-INI] (FLO-INI) {$t \gets 0$};
+\node[flow, below=1.825cm of ATK] (FLO-INC) {\parbox[t]{15mm}{%
+$c\gets\bot$\\%
+$t\gets\,t + 1$%
+}};
+\node[flow, below=0.50cm of FLO-INC] (FLO-NXT) {\parbox[t]{15mm}{%
+continue%
+}};
+\node[which, below=13.25cm of ATK] (FLO-END) {\parbox[t]{18mm}{%
+$\!\!\!\!\triangleleft\,$If~\,$c \not = \bot$\\%
+$\phantom{\!\!\!\!\triangleleft\,}$Else$\triangledown$%
+}};
+
+\node[invis, above left=0.75cm and 1cm of FLO-END ] (ROT-INC) {};
+
+
+\node[godo, right=0.50cm of ORC-DEL] (FLO-DEL) {};
+\node[godo, right=0.50cm of ORC-HRD] (FLO-HRD) {};
+\node[godo, right=0.50cm of ORC-COR] (FLO-COR) {};
+\node[flip, right=0.50cm of ORC-REV] (FLO-REV) {$c\gets\top$};
+\node[godo, right=0.50cm of ORC-ADD] (FLO-ADD) {};
+\node[godo, right=0.50cm of ORC-RMV] (FLO-RMV) {};
+\node[godo, right=0.50cm of ORC-UPD] (FLO-UPD) {};
+\node[ended, right=1.75cm of ORC-CHL ] (RESULT) {Win\phantom{nnnnnnn}\\\phantom{mnm}Lose};
+
+% From Adversary
+\path[line  ](ATK)--(ORC-INI);
+\path[line  ](ATK)|-(ORC-CRT);
+\path[line  ](ATK)--(FLO-INC);
+\path[line  ](FLO-INC)--(FLO-NXT);
+
+% Upper algorithms
+\path[line  ](ORC-INI)--(ALG-INI);
+\path[line  ](ORC-CRT)--(ALG-CRT);
+\draw[line  ] (ALG-INI)--(FLO-INI);
+
+% Control-flow from CONTINUE
+\path[choice]([xshift=\MainlineShiftX] FLO-NXT.south)|-(ORC-DEL);
+\path[choice]([xshift=\MainlineShiftX] FLO-NXT.south)|-(ORC-HRD);
+\path[choice]([xshift=\MainlineShiftX] FLO-NXT.south)|-(ORC-COR);
+\path[choice]([xshift=\MainlineShiftX] FLO-NXT.south)|-(ORC-ADD);
+\path[choice]([xshift=\MainlineShiftX] FLO-NXT.south)|-(ORC-RMV);
+\path[choice]([xshift=\MainlineShiftX] FLO-NXT.south)|-(ORC-UPD);
+\path[choice]([xshift=\MainlineShiftX] FLO-NXT.south)|-(ORC-REV);
+\path[choice]([xshift=\MainlineShiftX] FLO-NXT.south)--([xshift=\MainlineShiftX] FLO-END.north);
+
+% Pass through to choices
+\path[line  ](ORC-DEL)--(DS.west);
+\path[line  ](ORC-HRD)--(FLO-HRD.east);
+\path[line  ](ORC-COR)--(FLO-COR.east);
+\path[line  ](ORC-REV)--(FLO-REV);
+\path[line  ](ORC-ADD)--(ALG-ADD);
+\path[line  ](ORC-RMV)--(ALG-RMV);
+\path[line  ](ORC-UPD)--(ALG-UPD);
+
+% Branch bacward
+\path[line  ](FLO-DEL.center)--(FLO-DEL.north west);
+\path[line  ](FLO-HRD.center)--(FLO-HRD.north west);
+\path[line  ](FLO-COR.center)--(FLO-COR.north west);
+\path[line  ](FLO-ADD.center)--(FLO-ADD.south west);
+\path[line  ](FLO-RMV.center)--(FLO-RMV.south west);
+\path[line  ](FLO-UPD.center)--(FLO-UPD.south west);
+
+%Northern Line
+\path[line  ](FLO-DEL.north west)|-(FLO-NXT.east);
+\path[line  ](FLO-HRD.north west)--(FLO-DEL.south west);
+\path[line  ](FLO-COR.north west)--(FLO-HRD.south west);
+\path[line  ]([xshift=1mm,yshift=1mm]FLO-REV.north west)--(FLO-COR.south west);
+% Southern Line
+\path[line  ](FLO-ADD.south west)--(FLO-RMV.north west);
+\path[line  ](FLO-RMV.south west)--(FLO-UPD.north west);
+\path[line  ](FLO-UPD.south west) |- ([xshift=-18.5mm,yshift=-12.75cm]ATK.south) |- (FLO-INC.west);
+
+% From ENDGAME
+\path[line](FLO-END.north west) -| ([xshift=-14mm,yshift=-5.00cm]ATK.south) |-(FLO-NXT.south west);
+\path[choice]([xshift=\MainlineShiftX] FLO-END.south)|-(ORC-CHL.west);
+\path[line](ORC-CHL)--(RESULT);
+\draw[line width=0.375mm]([yshift=-6mm,xshift=2.5mm]RESULT.west)--([yshift=6mm,xshift=-2.5mm]RESULT.east);
+
+\node[ether, right=1.25cm of ORC-HRD ] (PNT-HRD) {};
+\node[ether, right=1.25cm of ORC-COR ] (PNT-COR) {};
+
+
+\path[line]([xshift=1.5mm,yshift=-1.5mm] ALG-ADD.north)--(DS);
+\path[line]([xshift=1.5mm,yshift=-1.5mm] ALG-RMV.north)--(DS);
+\path[line]([xshift=1.5mm,yshift=-1.5mm] ALG-UPD.north)--(DS);
+
+\path[choice]([xshift=6mm] DS.south)--([xshift=-0.75mm,yshift=-1.0mm] ID1.north west);
+\path[choice]([xshift=5mm] DS.south)--([xshift=-0.75mm,yshift=-1.0mm] ID2.north west);
+\path[choice]([xshift=4mm] DS.south)--([xshift= 2.00mm,yshift=-1.5mm] IDS.north west);
+\path[choice]([xshift=3mm] DS.south)--([xshift=-0.75mm,yshift=-1.0mm] IDN.north west);
+
+\path[choice](PNT-HRD.east)--([xshift=-1.25mm,yshift=-2.0mm] ID1.north west);
+\path[choice](PNT-HRD.east)--([xshift=-1.25mm,yshift=-2.0mm] ID2.north west);
+\path[choice](PNT-HRD.east)--([xshift=2mm    ,yshift=-2.5mm] IDS.north west);
+\path[choice](PNT-HRD.east)--([xshift=-1.25mm,yshift=-2.0mm] IDN.north west);
+
+\path[choice](PNT-COR.east)--([xshift=-1.50mm,yshift=-3.0mm] ID1.north west);
+\path[choice](PNT-COR.east)--([xshift=-1.50mm,yshift=-3.0mm] ID2.north west);
+\path[choice](PNT-COR.east)--([xshift=2mm,    yshift=-3.5mm] IDS.north west);
+\path[choice](PNT-COR.east)--([xshift=-1.50mm,yshift=-3.0mm] IDN.north west);
+
+%\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID1.west)--([xshift=-1.5mm,yshift=1.5mm] ALG-ADD.north east);
+%\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID2.west)--([xshift=-0.5mm,yshift=0.5mm] ALG-ADD.north east);
+%\path[choice]([xshift=2.00mm,yshift=-1.25mm] IDS.west)--([xshift=0.5mm,yshift=-0.5mm] ALG-ADD.north east);
+%\path[choice]([xshift=0.25mm,yshift=-1.25mm] IDN.west)--([xshift=1.5mm,yshift=-1.5mm] ALG-ADD.north east);
+%
+%\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID1.west)--([xshift=-1.5mm,yshift=1.5mm] ALG-RMV.north east);
+%\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID2.west)--([xshift=-0.5mm,yshift=0.5mm] ALG-RMV.north east);
+%\path[choice]([xshift=2.00mm,yshift=-1.25mm] IDS.west)--([xshift=0.5mm,yshift=-0.5mm] ALG-RMV.north east);
+%\path[choice]([xshift=0.25mm,yshift=-1.25mm] IDN.west)--([xshift=1.5mm,yshift=-1.5mm] ALG-RMV.north east);
+%
+%\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID1.west)--([xshift=-1.5mm,yshift=1.5mm] ALG-UPD.north east);
+%\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID2.west)--([xshift=-0.5mm,yshift=0.5mm] ALG-UPD.north east);
+%\path[choice]([xshift=2.00mm,yshift=-1.25mm] IDS.west)--([xshift=0.5mm,yshift=-0.5mm] ALG-UPD.north east);
+%\path[choice]([xshift=0.25mm,yshift=-1.25mm] IDN.west)--([xshift=1.5mm,yshift=-1.5mm] ALG-UPD.north east);
+%
+\path[line]([xshift=0.15mm,yshift=-0.50mm] ID1.west)--([xshift=-1.5mm,yshift=1.5mm] ALG-PRC.north east);
+\path[line]([xshift=0.15mm,yshift=-0.50mm] ID2.west)--([xshift=-0.5mm,yshift=0.5mm] ALG-PRC.north east);
+\path[line]([xshift= 1.50mm,yshift=3.75mm] IDS.south west)--([xshift=0.5mm,yshift=-0.5mm] ALG-PRC.north east);
+\path[line]([xshift=0.15mm,yshift=-0.50mm] IDN.west)--([xshift=1.5mm,yshift=-1.5mm] ALG-PRC.north east);
+
+%\draw [brown] (current bounding box.south west) rectangle (current bounding box.north east);
+%\draw[gray,step=0.25] (0,0) grid (20, 18);
+\end{tikzpicture}

@@ -1,0 +1,40 @@
+\begin{tikzpicture}[ node distance = 0.5cm and 0.5cm, auto]
+\node[agent, anchor=west ] (AGT) {TreeKEM Agent};
+\node[flow, right=30mm of AGT, text width=20mm] (FLO)
+{\parbox{20mm}{\centering%
+Control flow\\%
+\&\\%
+State change%
+}};
+\node[oracl, below=13mm of AGT, text width=28mm] (ORC) {\Oracle{\CGKAsec Oracle}{}};
+\node[algor, right=30mm of ORC, text width=16mm] (ALG) {\Protocol{\parbox{12mm}{\centering\CGKAdef\\Algorithm}}};
+
+\node[godo, below=5mm of ALG] (MUL) {};
+\path[line  ](MUL.center)--(MUL.north west);
+\path[line  ](ORC.south)|-(MUL.east);
+
+\path[line  ](MUL.north west)-|(ALG.south west);
+\path[line  ](MUL.east)-|(FLO.east);
+
+
+\path[line](ORC)--(ALG);
+\path[choice](AGT.east)--(FLO.west);
+\path[choice](AGT.east)|-([xshift=-2mm, yshift=-2mm]ALG.north);
+
+\node[invis, above left=-14mm and 27mm of FLO] (CHO) {\parbox{28mm}{%
+Non-deterministic\\%
+Choice%
+}};
+
+\node[invis, above left=-11mm and 32mm of ALG] (MOV) {\parbox{25mm}{%
+Deterministic\\[1mm]%
+Transition%
+}};
+
+\node[invis, above left=-7.5mm and 24.5mm of MUL] (FRK) {\parbox{28mm}{%
+Deterministic\\%
+Parallel Invocation%
+}};
+
+
+\end{tikzpicture}

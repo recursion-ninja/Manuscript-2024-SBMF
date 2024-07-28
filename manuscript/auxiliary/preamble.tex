@@ -1,0 +1,38 @@
+\usepackage{adjustbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{copyrightbox} % for copyrighted figures
+\usepackage{etoolbox}
+\usepackage{graphicx}
+\usepackage{import}
+\usepackage{makecell} % for \thead and multi-ine header cells
+\usepackage{pifont}
+\usepackage[indentfirst=false]{quoting}
+\usepackage{stmaryrd} % double square bracket / parens
+\usepackage{xfrac} % for sfrac in \NA
+\usepackage{xspace}
+
+\subimport{./}{abbreviations}
+\subimport{./}{copyrights}
+\subimport{./}{figure-styles}
+\subimport{./}{metadata}
+\subimport{./}{shorthand}
+
+%------------------------------------- Custom definitions ----------------------
+\usepackage{ntheorem}
+
+\theoremstyle{break}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{plain}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{nonumberbreak}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\newtheorem{LTL}{LTL Predicate}
+
+\hfuzz=0.64pt
+\vfuzz=0.64pt
+%------------------------------------- Custom definitions ----------------------

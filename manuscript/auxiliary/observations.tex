@@ -1,0 +1,65 @@
+\hypertarget{apx:Observations}{%
+\chapter{Appendix: Observations}\label{apx:Observations}}
+
+
+\newcommand{\ObservationTable}[3]{%
+\begin{table}[!ht]
+\centering
+\caption{%
+\label{tab:V#1-#3}%
+Observations for \CGKAmod{#2}{T}{N}$ \models \LTLPredicate{#3}$.%
+}%
+\subimport{../tables/}{results-V#1-#3-PRELIM}
+\end{table}
+}
+
+\begin{table}[!ht]
+\centering
+\caption{%
+\label{tab:model-param-domain}%
+Verification domain of \( \CGKAmod{P}{T}{N} \models \varphi \) parameters.
+}%
+\subimport{../tables/}{model-param-domain}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\caption{%
+\label{tab:table-legend}%
+Legend of symbols appearing in tables.
+}%
+\subimport{../tables/}{tabular-legend}
+\end{table}
+
+\ObservationTable{1}{\VersionOne}{HLT}
+\ObservationTable{1}{\VersionOne}{PCS}
+\ObservationTable{1}{\VersionOne}{FSU}
+
+\begin{table}[ht!]
+\centering
+\caption[State vector byte length for each model]{%
+\label{tab:state-vector-len}%
+State vector byte length for each model parameterization of \CGKAmod{\VersionOne}{}{}.
+}%
+\subimport{../tables/}{lengths-V1-state-vector-PRELIM}
+\end{table}
+
+\begin{table}[ht!]                                                                        
+\centering
+\caption[Wall clock run-time projections for \CGKAmod{\VersionOne}{T}{N}]{%
+\label{tab:predicted-run-times}%
+Wall clock run-time projections for \CGKAmod{\VersionOne}{T}{N}\\%
+$\forall\; N \in [4, 8]$ using $T \in [4, 7]$ as predictors for $T \in [8, 12]$.
+}%
+\subimport{../tables/}{runtime-prediction-wallclock-V1}
+\end{table}
+
+\begin{table}[ht!]                                                                        
+\centering
+\caption[CPU clock cycle projections for \CGKAmod{\VersionOne}{T}{N}]{%
+\label{tab:predicted-cpu-ticks}%
+CPU clock cycle projections for \CGKAmod{\VersionOne}{T}{N}\\%
+$\forall\; N \in [4, 8]$ using $T \in [4, 7]$ as predictors for $T \in [8, 12]$.
+}%
+\subimport{../tables/}{runtime-prediction-cpucycles-V1}
+\end{table}

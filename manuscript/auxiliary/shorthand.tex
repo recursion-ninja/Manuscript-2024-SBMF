@@ -1,0 +1,156 @@
+%------------------------------------- Custom *Term* definitions ---------------
+% Shorthands for: CGKA 
+\usepackage{amsfonts}
+\newcommand{\CGKAdef}{\ensuremath{{}^{\ulcorner}\!\!\textbf{\textsf{\textsl{CGKA}}}_{\!\lrcorner}}\xspace}%
+\newcommand{\CGKAsec}{\Abrev{CGKA} security game\xspace}%
+\newcommand{\CGKAmod}[3]{\ensuremath{\mathcal{M}_{\texttt{CGKA}}%
+\expandafter\ifstrempty\expandafter{#1}
+{
+	\expandafter\ifstrempty\expandafter{#2}
+	{
+		\expandafter\ifstrempty\expandafter{#3}
+		{}
+		{\langle\,#3\,\rangle}
+	}
+	{
+		\expandafter\ifstrempty\expandafter{#3}
+		{\langle\,#2\,\rangle}
+		{\langle\,#2,\, #3\,\rangle}
+	}
+}
+{
+	\expandafter\ifstrempty\expandafter{#2}
+	{
+		\expandafter\ifstrempty\expandafter{#3}
+		{\langle\,\mathtt{#1}\,\rangle}
+		{\langle\,\mathtt{#1},\, #3\,\rangle}
+	}
+	{
+		\expandafter\ifstrempty\expandafter{#3}
+		{\langle\,\mathtt{#1},\, #2\,\rangle}
+		{\langle\,\mathtt{#1},\, #2,\, #3\,\rangle}
+	}
+}
+}%
+\xspace
+}%
+
+\makeatletter
+\newcommand{\ModelStacked}[2]{%
+\leavevmode\vbox{%
+\check@mathfonts
+\offinterlineskip
+\halign{%
+\hfill##\hfil\cr
+\vphantom{y}#1\cr
+\noalign{\vskip0.2pt}
+\fontsize{\ssf@size}{0}\selectfont
+\vspace*{-1mm}
+\vphantom{b}#2\cr
+}%
+}%
+}
+\makeatother
+
+\newcommand{\True}{\ensuremath{\top}\xspace}
+\newcommand{\False}{\ensuremath{\bot}\xspace}
+%\newcommand{\True}{\textbf{\textsf{T}}\xspace}
+%\newcommand{\False}{\textbf{\textsf{F}}\xspace}
+
+%\newcommand{\CGKAmodPN}[1]{\ensuremath{\mathcal{M}_{\texttt{CGKA}}%
+\newcommand{\CGKAmodPN}[2]{%
+\ensuremath{%
+\ModelStacked{\small$\mathcal{M}^{+}$}{\texttt{CGKA}}%
+{\langle\,\scalebox{0.8}[0.8]{#1},\,#2\,\rangle}%
+}%
+\xspace
+}%
+
+%\newcommand{\CGKAmodPN}[1]{\ensuremath{\mathcal{M}_{\texttt{CGKA}}%
+\newcommand{\CGKAmodN}[1]{%
+\ensuremath{%
+\ooalign{%
+\ensuremath{\upharpoonleft}\cr\kern2.0pt
+\ModelStacked{\small\ensuremath{\mathcal{M}}}{\texttt{CGKA}}%
+}%
+{\langle\,#1\,\rangle}%
+}%
+\xspace
+}%
+\newcommand{\CGKAmodNT}[2]{%
+\ensuremath{%
+\ooalign{%
+\ensuremath{\downharpoonleft}\cr\kern2.0pt
+\ModelStacked{\small\ensuremath{\mathcal{M}}}{\ensuremath{{\texttt{CGKA}}}}%
+}%
+{\llbracket\,#1,\,#2\,\rrbracket}%
+}%
+\xspace
+}%
+
+
+
+%\newcommand{\GamplayFigWidth}{0.725\textwidth}
+\newcommand{\GamplayFigWidth}{0.85 \textwidth}
+\newcommand{\GamplayFigHeight}{0.45 \textheight}
+\newcommand{\BigNum}[2]{\ensuremath{#1\!\times\!10^{#2}}}
+
+\newcommand{\Promela}{Promela\xspace}
+
+% Shorthands for: TreeKEM versions
+\newcommand{\VersionAny}[1]{\ensuremath{\mathtt{\textsf{\textbf{\scalebox{0.4}[1.0]{TreeKEM}}}v#1}}\xspace}%
+\newcommand{\VersionOne}{\VersionAny{1}}%
+\newcommand{\VersionTwo}{\VersionAny{2}}%
+
+% Shorthands for: Oracle and Protocol references
+\newcommand{\Protocol}[1]{\ensuremath{\text{\sffamily{\textsl{#1}}}}\xspace}
+\newcommand{\Oracle}[2]{%
+{\ttfamily%
+\textbf{#1}%
+\expandafter\ifstrempty\expandafter{#2}{()}%
+{(\(\,\mathtt{#2}\,\))}%
+}\xspace%
+}%
+
+% Table entries
+\newcommand{\TableHeadFontSize}{\normalsize}
+\newcommand{\TableBodyFontSize}{\small}
+\newcommand{\TableWidthStateVector}{0.2525\linewidth}%
+\newcommand{\SpinConfig}[1]{{\TableBodyFontSize\texttt{#1}}}%
+\newcommand{\OutOfMemory}{\ensuremath{\mathtt{O\,O\,M}}\xspace}
+\newcommand{\MinimizedDFA}{\ensuremath{\min_{\vec{s}\,\in\,\Sigma}\textbf{\scalebox{.55}[1.0]{DFA}}(\vec{s}\,)}\xspace}
+\newcommand{\NA}{\ensuremath{\sfrac{\mathtt{\textbf{N}}}{\mathtt{\textbf{A}}}}\xspace}
+
+
+% Checkmark and X-mark
+\newcommand{\cmark}{\ding{52}\xspace}%
+\newcommand{\xmark}{\ding{56}\xspace}%
+
+
+\newcommand{\LTLPredicate}[1]{\ensuremath{\llparenthesis\mathtt{#1}\rrparenthesis}\xspace}
+\newcommand{\siBytes}{\ensuremath{\mathtt{B}}\xspace}
+\newcommand{\siMiBytes}{\ensuremath{\mathtt{MiB}}\xspace}
+\newcommand{\siGiBytes}{\ensuremath{\mathtt{GiB}}\xspace}
+
+
+\newcommand{\Nmin}{\ensuremath{N_{\min}}\xspace}
+\newcommand{\Nmax}{\ensuremath{N_{\max}}\xspace}
+\newcommand{\Tmin}{\ensuremath{T_{\min}}\xspace}
+\newcommand{\Tmax}{\ensuremath{T_{\max}}\xspace}
+
+
+%\usepackage{amsthm}
+%\theoremstyle{definition}
+%\newtheorem{LTL}{LTL Predicate}
+
+%\theoremstyle{definition}
+%\newtheorem{definition}{Definition}
+%\usepackage{ntheorem}
+%\theoremstyle{nonumberbreak}
+%\theorembodyfont{\upshape}
+%\theoremseparator{:}
+%\newtheorem{LTL}{LTL Predicate}
+%
+%\theoremstyle{break}
+%\newtheorem{definition}{Definition}
+%------------------------------------- Custom *Term* definitions ---------------

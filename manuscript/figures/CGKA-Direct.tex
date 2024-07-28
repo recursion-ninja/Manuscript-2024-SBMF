@@ -1,0 +1,103 @@
+\begin{tikzpicture}[ node distance = 0.5cm and 0.5cm, auto]
+\node[agent, anchor=west ] (ATK) {\textbf{\((\,T, C, N\,)\) Adversary}};
+\node[boxed, below left=2cm and 2cm of ATK.south west, anchor=north west] (BOXED) {};
+\node[label, right=1mm of BOXED.west, anchor=north] (LABEL) {\Large \scshape Concurrent, Unbounded Gameplay};
+\node[triangle, below=1.90cm of ATK.south, anchor=south] {};
+\node[triangle, below=14.4cm of ATK.south, anchor=south] {};
+
+\node[oracl, right=0.75cm of ATK     ] (ORC-INI) {\Oracle{init}{}};
+\node[oracl, below=0.75cm of ORC-INI ] (ORC-CRT) {\Oracle{create-group}{}};
+\node[oracl, below=3.25cm of ORC-CRT  ] (ORC-DEL) {\Oracle{deliver}{}};
+\node[oracl, below=0.50cm of ORC-DEL ] (ORC-HRD) {\Oracle{no-del}{}};
+\node[oracl, below=0.50cm of ORC-HRD ] (ORC-COR) {\Oracle{corr}{}};
+\node[oracl, below=0.50cm of ORC-COR ] (ORC-REV) {\Oracle{reveal}{}};
+\node[oracl, below=0.50cm of ORC-REV ] (ORC-ADD) {\Oracle{add-user}{}};
+\node[oracl, below=0.50cm of ORC-ADD ] (ORC-RMV) {\Oracle{remove-user}{}};
+\node[oracl, below=0.50cm of ORC-RMV ] (ORC-UPD) {\Oracle{send-update}{}};
+\node[oracl, below=3.00cm of ORC-UPD ] (ORC-CHL) {\Oracle{chall}{}};
+
+\node[ether, right=1.25cm of ORC-HRD ] (PNT-HRD) {};
+\node[ether, right=1.25cm of ORC-COR ] (PNT-COR) {};
+\node[ether, right=1.80cm of ORC-HRD ] (END-HRD) {};
+\node[ether, right=1.80cm of ORC-COR ] (END-COR) {};
+	
+\node[algor, right=0.50cm of ORC-INI ] (ALG-INI) {\Protocol{init}}; 
+\node[algor, right=1.85cm of ORC-CRT ] (ALG-CRT) {\Protocol{create}}; 
+\node[algor, right=2.75cm of ORC-ADD ] (ALG-ADD) {\Protocol{add}}; 
+\node[algor, right=4.00cm of ORC-RMV ] (ALG-RMV) {\Protocol{rmv}}; 
+\node[algor, right=5.25cm of ORC-UPD ] (ALG-UPD) {\Protocol{upd}};
+\node[algor, below right=0.5cm and 6.90cm of ORC-UPD ] (ALG-PRC) {\Protocol{proc}};
+	
+\node[agent, right=4.75cm of ORC-DEL ] (DS)  {\textbf{Delivery\\Service}};
+\node[ident, right=9.25cm of ORC-HRD ] (ID1) {\textbf{$\texttt{ID}_1$}};
+\node[ident, right=9.25cm of ORC-COR ] (ID2) {\textbf{$\texttt{ID}_2$}};
+\node[invis, right=9.25cm of ORC-ADD ] (IDS) {\makebox[4mm][r]{$\vdots$}};
+\node[ident, right=9.25cm of ORC-RMV ] (IDN) {\textbf{$\texttt{ID}_N$}};
+
+\node[ended, right=1.75cm of ORC-CHL ] (RESULT) {Win\phantom{nnnnnnn}\\\phantom{mnm}Lose};
+\path[line](ORC-CHL)--(RESULT);
+\draw[line width=0.375mm]([yshift=-6mm,xshift=2.5mm]RESULT.west)--([yshift=6mm,xshift=-2.5mm]RESULT.east);
+
+\path[line  ](ATK)--(ORC-INI);
+\path[line  ](ATK)|-(ORC-CRT);
+\path[choice](ATK)|-(ORC-DEL);
+\path[choice](ATK)|-(ORC-HRD);
+\path[choice](ATK)|-(ORC-COR);
+\path[choice](ATK)|-(ORC-ADD);
+\path[choice](ATK)|-(ORC-RMV);
+\path[choice](ATK)|-(ORC-UPD);
+\path[choice](ATK)|-(ORC-REV);
+\path[line  ](ATK)|-(ORC-CHL);
+\path[line  ](ORC-HRD)--(END-HRD);
+\path[line  ](ORC-COR)--(END-COR);
+
+
+\path[line  ](ORC-INI)--(ALG-INI);
+\path[line  ](ORC-CRT)--(ALG-CRT);
+\path[line  ](ORC-ADD)--(ALG-ADD);
+\path[line  ](ORC-RMV)--(ALG-RMV);
+\path[line  ](ORC-UPD)--(ALG-UPD);
+\path[line  ](ORC-DEL)--(DS);
+
+\path[line]([xshift=1.5mm,yshift=-1.5mm] ALG-ADD.north)--(DS);
+\path[line]([xshift=1.5mm,yshift=-1.5mm] ALG-RMV.north)--(DS);
+\path[line]([xshift=1.5mm,yshift=-1.5mm] ALG-UPD.north)--(DS);
+
+\path[choice]([xshift=6mm] DS.south)--([xshift=-0.75mm,yshift=-1.0mm] ID1.north west);
+\path[choice]([xshift=5mm] DS.south)--([xshift=-0.75mm,yshift=-1.0mm] ID2.north west);
+\path[choice]([xshift=4mm] DS.south)--([xshift= 2.00mm,yshift=-1.5mm] IDS.north west);
+\path[choice]([xshift=3mm] DS.south)--([xshift=-0.75mm,yshift=-1.0mm] IDN.north west);
+
+\path[choice](PNT-HRD.east)--([xshift=-1.25mm,yshift=-2.0mm] ID1.north west);
+\path[choice](PNT-HRD.east)--([xshift=-1.25mm,yshift=-2.0mm] ID2.north west);
+\path[choice](PNT-HRD.east)--([xshift=2mm    ,yshift=-2.5mm] IDS.north west);
+\path[choice](PNT-HRD.east)--([xshift=-1.25mm,yshift=-2.0mm] IDN.north west);
+
+\path[choice](PNT-COR.east)--([xshift=-1.50mm,yshift=-3.0mm] ID1.north west);
+\path[choice](PNT-COR.east)--([xshift=-1.50mm,yshift=-3.0mm] ID2.north west);
+\path[choice](PNT-COR.east)--([xshift=2mm,    yshift=-3.5mm] IDS.north west);
+\path[choice](PNT-COR.east)--([xshift=-1.50mm,yshift=-3.0mm] IDN.north west);
+
+\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID1.west)--([xshift=-1.5mm,yshift=1.5mm] ALG-ADD.north east);
+\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID2.west)--([xshift=-0.5mm,yshift=0.5mm] ALG-ADD.north east);
+\path[choice]([xshift=2.00mm,yshift=-1.25mm] IDS.west)--([xshift=0.5mm,yshift=-0.5mm] ALG-ADD.north east);
+\path[choice]([xshift=0.25mm,yshift=-1.25mm] IDN.west)--([xshift=1.5mm,yshift=-1.5mm] ALG-ADD.north east);
+
+\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID1.west)--([xshift=-1.5mm,yshift=1.5mm] ALG-RMV.north east);
+\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID2.west)--([xshift=-0.5mm,yshift=0.5mm] ALG-RMV.north east);
+\path[choice]([xshift=2.00mm,yshift=-1.25mm] IDS.west)--([xshift=0.5mm,yshift=-0.5mm] ALG-RMV.north east);
+\path[choice]([xshift=0.25mm,yshift=-1.25mm] IDN.west)--([xshift=1.5mm,yshift=-1.5mm] ALG-RMV.north east);
+
+\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID1.west)--([xshift=-1.5mm,yshift=1.5mm] ALG-UPD.north east);
+\path[choice]([xshift=0.25mm,yshift=-1.25mm] ID2.west)--([xshift=-0.5mm,yshift=0.5mm] ALG-UPD.north east);
+\path[choice]([xshift=2.00mm,yshift=-1.25mm] IDS.west)--([xshift=0.5mm,yshift=-0.5mm] ALG-UPD.north east);
+\path[choice]([xshift=0.25mm,yshift=-1.25mm] IDN.west)--([xshift=1.5mm,yshift=-1.5mm] ALG-UPD.north east);
+
+\path[line]([xshift=0.25mm,yshift=-1.25mm] ID1.west)--([xshift=-1.5mm,yshift=1.5mm] ALG-PRC.north east);
+\path[line]([xshift=0.25mm,yshift=-1.25mm] ID2.west)--([xshift=-0.5mm,yshift=0.5mm] ALG-PRC.north east);
+\path[line]([xshift= 2.00mm,yshift=2.25mm] IDS.south west)--([xshift=0.5mm,yshift=-0.5mm] ALG-PRC.north east);
+\path[line]([xshift=0.25mm,yshift=-1.25mm] IDN.west)--([xshift=1.5mm,yshift=-1.5mm] ALG-PRC.north east);
+
+%\draw [brown] (current bounding box.south west) rectangle (current bounding box.north east);
+%\draw[gray,step=0.25] (0,0) grid (20, 18);
+\end{tikzpicture}

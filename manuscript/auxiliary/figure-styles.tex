@@ -1,0 +1,70 @@
+%------------------------------------- TikZ figure styles ----------------------
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark}
+\usetikzlibrary{shapes,arrows,arrows.meta,positioning}
+\usetikzlibrary{shapes.multipart}
+
+\newcommand{\MainlineShiftX}{0mm}
+\newcommand{\AssignInFig}[2]{\makebox[5mm][l]{\ensuremath{#1}}\ensuremath{\gets#2}}
+
+% Boundary / labeling nodes
+\tikzstyle{boxed} = [rectangle, draw, dashed, minimum height=12.50cm, minimum width=19.25cm]
+
+\tikzstyle{timebox} = [rectangle, draw, dashed, minimum height=5.7cm, minimum width=1.35cm]
+
+\tikzstyle{label} = [text width=9.5cm, text centered,minimum width=9.5cm, rotate=90 ]
+
+% Actor nodes	
+\tikzstyle{ident} = [circle, draw, fill=green!40, text width=2em, text centered, minimum height=2em, node distance=3cm]
+
+\tikzstyle{invis} = [text width=0em, text centered, minimum height=0em, node distance=3cm]
+
+\tikzstyle{ether} = [text width=0em, text centered, minimum height=0em, node distance=0cm]
+
+\tikzstyle{agent} = [ellipse, draw, fill=green!40, text width=6em, text centered, minimum height=2em, node distance=2cm]
+
+\tikzstyle{flow} = [chamfered rectangle, chamfered rectangle xsep=2cm, chamfered rectangle angle=30, draw, fill=yellow!30, text width=13mm, text centered, minimum height=2em, node distance=1cm]
+
+\tikzstyle{godo} = [regular polygon, regular polygon sides=6, shape aspect=0.5, minimum width=1cm, minimum height=0.75cm, draw, fill=yellow!30, text width=1em, text centered, minimum height=2em, node distance=0.25cm]
+
+\tikzstyle{flip} = [chamfered rectangle, chamfered rectangle xsep=2cm, chamfered rectangle angle=30, draw, fill=yellow!30, text width=13mm, text centered, minimum height=2em, node distance=1cm]
+
+\tikzstyle{flipBig} = [chamfered rectangle, chamfered rectangle xsep=2cm, chamfered rectangle angle=30, draw, inner sep=1mm, fill=yellow!30, text width=12mm, text centered, minimum height=2.5em, node distance=1cm]
+
+\tikzstyle{which} = [chamfered rectangle, chamfered rectangle xsep=2cm, chamfered rectangle angle=30, draw, fill=yellow!30, text width=13mm, text centered, minimum height=2em, node distance=1cm ]
+
+\tikzstyle{flowBig} = [chamfered rectangle, chamfered rectangle xsep=2cm, chamfered rectangle angle=30, draw, fill=yellow!30, text width=18mm, text centered, minimum height=4em, node distance=1cm]
+
+\tikzstyle{flowMed} = [chamfered rectangle, chamfered rectangle xsep=3cm, chamfered rectangle angle=30, draw, fill=yellow!30, text width=30mm, text centered, minimum height=2em, node distance=1cm]
+
+
+% Game/protocol interfaces
+\tikzstyle{oracl} = [rectangle, draw, fill=blue!15, text width=40mm, text centered, minimum height=2em, node distance=3cm]
+
+\tikzstyle{algor} = [diamond, draw, fill=blue!30, text width=3.75em, text badly centered, node distance=2.5cm, inner sep=0pt]
+
+\tikzstyle{cntrl} = [regular polygon, regular polygon sides=6, draw, fill=red!35, text width=1.2cm, text centered, minimum height=1.4cm, node distance=1cm, inner sep=0.0625mm]
+
+\tikzstyle{ended} = [regular polygon, regular polygon sides=8, draw, fill=red!35, text width=1.2cm, text centered, minimum height=1.4cm, node distance=1cm, inner sep=0.0625mm]
+
+\tikzstyle{timeline} = [rectangle, draw, fill=blue!15, text width=2.5em, text centered, minimum height=2em, node distance=2cm]
+
+% Transitions
+\tikzstyle{line} = [draw, very thick, color=black!50, -latex']
+
+\tikzstyle{arrow} = [draw, very thick, color=black!50, -{Latex[scale=1.25]}]
+
+\tikzstyle{choice} = [draw, thick,dash pattern={on 7pt off 2pt on 1pt off 3pt}, color=black!50, -latex']
+
+\tikzstyle{triangle} = [fill=black!50, regular polygon, regular polygon sides=3, shape border rotate=180]
+
+% DEPRICATED!
+\tikzstyle{blockOLD} = [rectangle, draw, fill=green!40, text width=10em, text centered, minimum height=4em, node distance=3cm]
+
+\tikzstyle{cloudOLD} = [ellipse, draw, fill=yellow!60, text width=10em, text centered, node distance=3cm]
+
+\tikzstyle{lineOLD} = [draw, thick, color=black!50, -latex']
+
+\tikzstyle{choiceOLD} = [draw, thick,dash pattern={on 7pt off 2pt on 1pt off 3pt}, color=black!50, -latex']
+%------------------------------------- TikZ figure styles ----------------------
