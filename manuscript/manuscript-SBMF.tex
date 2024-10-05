@@ -584,7 +584,7 @@ The encoding implementation of \CGKAmodN{N} utilized the Protocol Meta Language 
 which is the modeling language for the Spin model checker. 
 The key language feature of \Promela is that \emph{all} branching -- conditional execution, looping, and randomness -- are evaluated non-deterministically, making it a natural choice for encoding the model.
 
-The \Promela encoding \footnote{Source code: \url{https://github.com/recursion-ninja/Manuscript-2024-SBMF}} of \CGKAmodN{N} produces all possible states and transitions of TreeKEM, and this representation is then supplied to a model checker for verification.
+The \Promela encoding~\cite{WashburnModelSPIN2024} \footnote{Source code: \url{https://github.com/recursion-ninja/Manuscript-2024-SBMF}} of \CGKAmodN{N} produces all possible states and transitions of TreeKEM, and this representation is then supplied to a model checker for verification.
 
 
 The explicit state model checker Spin~\cite{HolzmannSpinBook2003} was chosen as the verification tool for this work.
