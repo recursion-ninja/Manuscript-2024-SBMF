@@ -121,7 +121,7 @@
 % [SS] Get rid of Spin in title (since this is not a FM conference). Add some umbrella term for FS/PCS to title? eg, Formal Verification of <blah> for TreeKEM and Continuous Group Key Agreement? 
 %[AW] Good insight, how does the below sound?
 \title{Formal Verification of Forward Secrecy and Post-Compromise Security for TreeKEM}
-%%\titlerunning{Abbreviated paper title}
+\titlerunning{TreeKEM: Verification of Forward Secrecy \& Post-Compromise Security}
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
@@ -226,7 +226,8 @@ Both \Abrev{FS} and \Abrev{PCS} have been researched with respect to \Abrev{SM},
 %[AWB] I added this sentance, adding justification for chosen properties
 The recentness of research regarding \Abrev{SGM} informed our choice of verifying \Abrev{FS} and \Abrev{PCS} 
 
-The TreeKEM protocol \cite{bhargavan:hal-02425247} was (informally) conceived in 2018, and formally described in 2019.
+% [SSC] citation for formal description in 2019
+The TreeKEM protocol \cite{bhargavan:hal-02425247} was (informally) conceived in 2018, and formally described in 2019 \cite{ietf-mls-architecture-03}.
 %[SSB] Was the description English? formal? If informal, it might be a good place to bring the games in (not sure). 
 The \Abrev{IETF} along with many other corporate and government sponsors have put their support behind the TreeKEM protocol.
 TreeKEM provides functionality for achieving each of the six operations to be considered a \Abrev{SGM} protocol (discussed further in Section \ref{sec:CGKA}).
@@ -262,8 +263,8 @@ The latter ensures that no matter how many compromises of key material occur amo
 
 Prior work has analyzed TreeKEM through a security game~\cite{alwen2020security}, which will be further elaborated on and utilized below in Section \ref{sec:Formal-Abstractions}.
 The resulting analysis yielded a mathematical proof, via graph theory, of the security guarantees \Abrev{FSU} and  \Abrev{PCS} for TreeKEM.
-In contrast, presents a mechanical verification of the same security guarantees for TreeKEM, up to some parameterized bound,  by utilizing model checking.
-
+%In contrast, presents a mechanical verification of the same security guarantees for TreeKEM, up to some parameterized bound,  by utilizing model checking.
+In contrast, this paper presents a mechanical verification of the same security guarantees for TreeKEM, up to some parameterized bound,  by utilizing model checking.
 
 
 %[SSB] Would this figure be better if second op was an add member instead of another update?
@@ -281,8 +282,8 @@ In contrast, presents a mechanical verification of the same security guarantees 
 
 Formalizing the model under verification is always an important and detailed process.
 The verification methodology chosen by the authors utilizes explicit state model checking.
-For this reason, it is important to rigorously control the size of the model's state-space in order to avoid a state-space explosion. 
-To that end, the authors developed multiple abstractions (presented in Section~\ref{sec:Formal-Abstractions}) together, progressively reduce the model's state-space. 
+For this reason, it is important to rigorously control the size of the model's state-space in order to avoid state-space explosion. 
+To that end, the authors developed multiple abstractions (discussed later in this section) that progressively reduce the model's state-space. 
 Without these abstractions, the model is not verifiable for even modestly sized parameters.
 
 \subsection{Continuous Group Key Agreement\label{sec:CGKA}}
@@ -371,11 +372,12 @@ Within the security game, this is modeled by \Adversary  ending the game via a c
 and subsequently demonstrating non-negligible advantage.
 We model the TreeKEM protocol in terms of the \CGKAsec as the initial abstraction.
 
-Advantage is formally defined by~\cite{alwen2020security}, but a brief definition goes as follows.
-A random bit $b$, hidden from \Adversary, is flipped uniformly at random.
-If $b = 1$ then the real TreeKEM protocol is used in the security game, otherwise the security game simulates TreeKEM with random data.
+Advantage is formally defined by~\cite{alwen2020security}, but a brief definition follows.
+% [SSC] I am confused, partly due to multiple uses of 'random'. Do you mean bit position b is selected randomly with uniform dist, and then it may or may not be flipped with .5 probability each choice? Anyway, rewrite next 2 sentences and I will look again. 
+A bit $b$, hidden from \Adversary, is flipped uniformly at random.
+If $b = 1$ then the real TreeKEM protocol is used in the security game, otherwise when $b = 0$ the security game simulates TreeKEM with the encrypted messages beteween entities replaced by bit-strings of equal length to the replaced message sampled uniformly at random from $\left\{0,\,1\right\}^{\ast}$.
  \Adversary demonstrates advantage if and only if they can guess the value of $b$ with probability $\varepsilon > \frac{1}{2}$.
-Since \Adversary can distiguish between random data and encrypted data, the princile of indistinguishability is violated and the protocol is not secure.
+Since \Adversary can distiguish between random bit-strings and encrypted data, the princile of indistinguishability is violated and the protocol is not secure.
 
 %[SSB] Its not clear that following subsections are abstractions. Either/both add a sentence here saying they are, or change subsection names to "Abstraction: ...". Maybe also mention here that 'this model needs blah hours to verify even for N=4' if you have such numbers. 
 
@@ -405,7 +407,7 @@ Since \Adversary can distiguish between random data and encrypted data, the prin
 
 
 \subsection{Abstraction: Adversarial Direction}
-While both the adversary \Adversary and each group member can initiate a new epoch within the \CGKAsec, modeling this explicitly unnecessarily complicates the model.
+While both the adversary \Adversary and each group member can initiate a new epoch within the \CGKAsec, modeling this explicitly complicates the model unnecessarily.
 Recall that within the \Abrev{ITM}, \Adversary controls the network.
 This is modeled within the \CGKAsec by messages sent from any source only being delivered if \Adversary permits it by querying \Oracle{deliver}{}.
 Because the verification methodology will explore all possible interleaving of concurrent actions within the \CGKAsec, simulating nondeterministic computation, this can be utilized to form an additional simplifying abstraction.
@@ -485,7 +487,7 @@ Instead of explicitly modeling the message processing semantics of the \Abrev{DS
 \subsection{Abstraction: Parameterized Bounds of $T$, $C$, and $N$}
 
 Another important simplifying abstraction is the explicit bounding of the $T$, $C$, and $N$ parameters of the \((\,T, C, N\,)\) Adversary \Adversary.
-The model will be parameterized by $T$ and $N$ and entail all possible staring group sizes $s \in \NumericRange{2}{N}$ and all possible sequences of oracle queries consisting of $T$ or fewer epochs.
+The model will be parameterized by $T$ and $N$ and entail all possible starting group sizes $s \in \NumericRange{2}{N}$ and all possible sequences of oracle queries consisting of $T$ or fewer epochs.
 This provides a partial bound for the model, though not a finite bounding, as idempotent or cyclic query sequences are permitted.
 %The continued composition of this abstraction is depicted in Figure \ref{fig:CGKA-Parameterized}.
 Interestingly, with this abstraction $C$ does not need to be explicitly parameterized.
@@ -526,7 +528,7 @@ The application of this constraint has a significant impact by bounding the mode
 
 Let us consider the oracles that drive the game. A query to \Oracle{add-user}{}, \Oracle{remove-user}{}, or \Oracle{send-update}{} advances the epoch, ensuring that it always results in a fresh state, specifically the first state of the \emph{next} epoch.
 Additionally, querying \Oracle{chall}{} ends the game, and since the game has not ended before this query, it necessarily leads to a fresh state.
-These ``epoch-ending'' queries do not limit the moves available to the \Adversary in the epoch prior to the query, as the previous epoch is no longer relevant to the ``non-redundant'' constraint after the query.
+These ``epoch-ending'' queries do not limit the moves available to \Adversary in the epoch prior to the query, as the previous epoch is no longer relevant to the ``non-redundant'' constraint after the query.
 
 To query \Oracle{corr}{} or \Oracle{no-del}{}, there must be an applicable member ID.
 %[SSB] what happens if used with a bad ID?
@@ -560,11 +562,14 @@ This can be especially important as model parameter sizes grow.
 
 \subsection{Abstraction: Markovian Property}
 
-The final abstraction to be utilized in the modeling of TreeKEM protocol is the observation that, in its currently simplified form, the model can be viewed as a Markov Process~\cite{markov1906a}.
+The final abstraction to be utilized in the modeling of TreeKEM protocol is the observation that, in its currently simplified form, the model can be viewed as a Markov Process
+% [SSC] I think this is too common knowledge to need a cite (and save a few lines)
+% [AWC] Agreed
+%~\cite{markov1906a}.
 Consider \Adversary entering a \CGKAsec state $s_{i}$.
 How the TreeKEM protocol evolved prior to $s_{i}$ does not inform the moves available to \Adversary, rather the current game state $s_{i}$ solely informs this.
-Furthermore, how the knowledge accumulated by \Adversary prior to $s_{i}$ was obtained does not further inform \Adversary of the TreeKEM protocol's CGKA key, instead all \Adversary knowledge is deduced from $s_{i}$.
-Phrased differently, state $s_{i-1}$ has no unique information which informs state transitions from $s_{i}$, state transitions from $s_{i}$ are determined solely from the information contained within $s_{i}$.
+Furthermore, how the knowledge accumulated by \Adversary prior to $s_{i}$ was obtained does not further inform \Adversary of the TreeKEM protocol's CGKA key; instead all \Adversary knowledge is deduced from $s_{i}$.
+Phrased differently, state $s_{i-1}$ has no unique information which informs state transitions from $s_{i}$, and state transitions from $s_{i}$ are determined solely from the information contained within $s_{i}$.
 
 Applying this abstraction has a profoundly important impact on model verification.
 Because the model can be encoded as a Markov process, it can become ``memoryless'' and not require the encoding of the current epoch number within the game state.
@@ -582,15 +587,19 @@ The resulting model is parameterized only by $N$, yet verifying all $t \in \Nume
 Let \CGKAmodN{N} denote the TreeKEM model encoding with parameter $N$, for the model derived by composing the abstractions described in Section \ref{sec:Formal-Abstractions}.
 The encoding implementation of \CGKAmodN{N} utilized the Protocol Meta Language (\Promela)~\cite{HolzmannSpinBook2003}, 
 which is the modeling language for the Spin model checker. 
-The key language feature of \Promela is that \emph{all} branching -- conditional execution, looping, and randomness -- are evaluated non-deterministically, making it a natural choice for encoding the model.
-
-The \Promela encoding~\cite{WashburnModelSPIN2024} \footnote{Source code: \url{https://github.com/recursion-ninja/Manuscript-2024-SBMF}} of \CGKAmodN{N} produces all possible states and transitions of TreeKEM, and this representation is then supplied to a model checker for verification.
+The key language feature of \Promela is that \emph{all} branches -- conditional execution, looping, and randomness -- are evaluated non-deterministically, making it a natural choice for encoding the model.
+% [SSC] I took out this parbreak to save a line and I think it also reads better but your call
+% I thonk so too
+The \Promela encoding~\cite{WashburnModelSPIN2024}
+%\footnote{Source code: \url{https://github.com/recursion-ninja/Manuscript-2024-SBMF}}
+of \CGKAmodN{N} produces all possible states and transitions of TreeKEM, and this representation is then supplied to a model checker for verification.
 
 
 The explicit state model checker Spin~\cite{HolzmannSpinBook2003} was chosen as the verification tool for this work.
 As an explicit-state model checker, Spin utilizes a representation of all possible model states as a \Abrev{FSM}~\cite{clarke1981design}, with transitions corresponding to possible changes in model state.
-Spin then verifies a user-specified property by traversing through all transitions of the \Abrev{FSM}, and checking that that a property holds at each model state.
+Spin then verifies a user-specified property by traversing through all transitions of the \Abrev{FSM}, and checking that a property holds at each model state.
 %~\cite{Vardi1986}.
+% Take out burch if needed for space.
 The principle drawback of explicit state model checking is the immense state-space resulting as the model complexity grows~\cite{burch1992symbolic}.
 As a venerable tool, Spin does much to address this~\cite{rudin1987limits} but the authors' own encoding adaptations which further mitigate the state-space explosion are detailed below in Sections \ref{sec:bit-array} and \ref{sec:popcount}.
 Additionally, Spin supports numerous compile time directive which alter the state-space representation, search trajectories, and time-memory trade-offs (see Table \ref{tab:spin-confg}).
@@ -660,7 +669,7 @@ Conversely, the PopCount macro derives a \emph{constant} number of transitions i
 
 The security guarantees under verification are encoded in \Abrev{LTL}.
 \Abrev{LTL} expressions are natively supported by \Promela and Spin.
-Below are the English definitions of \Abrev{FSU} and \Abrev{PCS} along with their corresponding \Abrev{LTL} formulae.
+Below are the English definitions of \Abrev{FSU} and \Abrev{PCS} their corresponding \Abrev{LTL} formulae.
 
 %[SSB] what does UnderNoteRef mean? If there is a point to it, define what it means; else get rid of it. 
 \begin{definition}[Forward Secrecy with Updates]
@@ -709,15 +718,16 @@ The methodology presented is two-fold.
 First, the performance is measured of the model \CGKAmodN{N} described in this work and compared with the performance of a precursor model defined by~\cite{washburn2022formal} 
 denoted as \CGKAmodNT{N}{T}.
 %[SSB] after "described" add "in sections 2.2-2.6"
-The comparison model \CGKAmodNT{N}{T} is the same semantic encoding of \CGKAmodN{N} \emph{before} the abstractions described were applied, i.e:  $$\Code{Abstractions}\Parens{\CGKAmodNT{N}{T}} =  \CGKAmodN{N}$$
-Therefore \CGKAmodNT{N}{T} is an apt choice as a comparative baseline from which the effects of the composed abstractions can be measured.
+The comparison model \CGKAmodNT{N}{T} is the same semantic encoding of \CGKAmodN{N} \emph{before} the abstractions described were applied, i.e:  $\Code{Abstractions}\Parens{\CGKAmodNT{N}{T}} =  \CGKAmodN{N}$.
+Therefore \CGKAmodNT{N}{T} is an fitting comparative baseline from which the effects of the composed abstractions can be measured.
 Comparison of performance is made across several metrics, including state-vector length, runtime, memory usage, state-space size, and transition count.
 Both models performed verification of the \LTLPredicate{FSU} and \LTLPredicate{PCS} properties.
 Second, \CGKAmodN{N} is utilized to verify \LTLPredicate{FSU} and \LTLPredicate{PCS} for parameters far beyond the capabilities of \CGKAmodNT{N}{T}.
-Subsequently, the authors provide brief contextual commentary accompanying these verification results.
+Subsequently, the authors provide brief contextual commentary on these verification results.
 
+% [SSC] Get rid of "Processor" if it saves a line (or maybe even if not)
 %[SSB] What is the relevance of 1TiB if you only needed 200GiB? Just checking. 
-All verification runs of both \CGKAmodN{N} and \CGKAmodNT{N}{T} utilized 1 TiB RAM and \(64\) AMD Opteron Processor 6380 core operating at 2500MHz\footnote{Performed on the American Museum of Natural History scientific computing cluster}.
+All verification runs of both \CGKAmodN{N} and \CGKAmodNT{N}{T} ran on AMD Opteron 6380 cores operating at 2500MHz\footnote{Performed on the American Museum of Natural History scientific computing cluster}.
 Each verification run utilized 2 cores and up to 200 GiB of RAM.
 All Spin performance tuning options used during verification are listed in Table~\ref{tab:spin-confg}.
 The performance observations of the verification runs are depicted in Table \ref{tab:verification-measurements}.
@@ -879,6 +889,7 @@ Since this leap in descriptive power was derived directly form the composed abst
 \label{tab:performance-comparison}%
 \end{table*}%
 %%
+% [SSC] What is search depth? I think its worth adding a sentence about it given that the table has it. 
 \begin{table*}[h!]%
 {% START font resize
 \TableBodyFontSize%
