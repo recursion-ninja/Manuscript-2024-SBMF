@@ -121,7 +121,7 @@
 % [SS] Get rid of Spin in title (since this is not a FM conference). Add some umbrella term for FS/PCS to title? eg, Formal Verification of <blah> for TreeKEM and Continuous Group Key Agreement? 
 %[AW] Good insight, how does the below sound?
 \title{Formal Verification of Forward Secrecy and Post-Compromise Security for TreeKEM}
-\titlerunning{TreeKEM: Verification of Forward Secrecy \& Post-Compromise Security}
+%%\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
@@ -562,7 +562,7 @@ This can be especially important as model parameter sizes grow.
 
 \subsection{Abstraction: Markovian Property}
 
-The final abstraction to be utilized in the modeling of TreeKEM protocol is the observation that, in its currently simplified form, the model can be viewed as a Markov Process
+The final abstraction to be utilized in the modeling of TreeKEM protocol is the observation that, in its currently simplified form, the model can be viewed as a Markov Process.
 % [SSC] I think this is too common knowledge to need a cite (and save a few lines)
 % [AWC] Agreed
 %~\cite{markov1906a}.
@@ -669,7 +669,7 @@ Conversely, the PopCount macro derives a \emph{constant} number of transitions i
 
 The security guarantees under verification are encoded in \Abrev{LTL}.
 \Abrev{LTL} expressions are natively supported by \Promela and Spin.
-Below are the English definitions of \Abrev{FSU} and \Abrev{PCS} their corresponding \Abrev{LTL} formulae.
+Below are the English definitions of \Abrev{FSU} and \Abrev{PCS} with their corresponding \Abrev{LTL} formulae.
 
 %[SSB] what does UnderNoteRef mean? If there is a point to it, define what it means; else get rid of it. 
 \begin{definition}[Forward Secrecy with Updates]
@@ -719,7 +719,7 @@ First, the performance is measured of the model \CGKAmodN{N} described in this w
 denoted as \CGKAmodNT{N}{T}.
 %[SSB] after "described" add "in sections 2.2-2.6"
 The comparison model \CGKAmodNT{N}{T} is the same semantic encoding of \CGKAmodN{N} \emph{before} the abstractions described were applied, i.e:  $\Code{Abstractions}\Parens{\CGKAmodNT{N}{T}} =  \CGKAmodN{N}$.
-Therefore \CGKAmodNT{N}{T} is an fitting comparative baseline from which the effects of the composed abstractions can be measured.
+Therefore \CGKAmodNT{N}{T} is a fitting comparative baseline from which the effects of the composed abstractions can be measured.
 Comparison of performance is made across several metrics, including state-vector length, runtime, memory usage, state-space size, and transition count.
 Both models performed verification of the \LTLPredicate{FSU} and \LTLPredicate{PCS} properties.
 Second, \CGKAmodN{N} is utilized to verify \LTLPredicate{FSU} and \LTLPredicate{PCS} for parameters far beyond the capabilities of \CGKAmodNT{N}{T}.
